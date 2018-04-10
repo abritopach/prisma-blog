@@ -1,5 +1,7 @@
 # import Post from "./generated/prisma.graphql"
 
+directive @hasRole(roles: [String]) on QUERY | FIELD | MUTATION
+
 type Query {
   # Post queries.
   feed: [Post!]!
@@ -18,9 +20,9 @@ type Query {
 type Mutation {
 
   # User mutations.
-  signup(email: String!, password: String!, name: String!): AuthPayload!
+  signup(email: String!, password: String!, name: String!, username: String!): AuthPayload!
   login(email: String!, password: String!): AuthPayload!
-  deleteUser(id: ID!): User!
+  deleteUser(id: ID!): User! @hasRole(roles: ["admin"])
 
   # Post mutations.
   createDraft(title: String!, text: String!, content: String!): Post!
@@ -29,6 +31,7 @@ type Mutation {
 
   # Category mutations.
   createCategory(name: String!, posts: [ID!]): Category
+  deleteCategory(id: ID!): Category!
 }
 
 type AuthPayload {
@@ -40,5 +43,8 @@ type User {
   id: ID!
   email: String!
   name: String!
+  username: String!
   posts: [Post!]!
+  role: String!
+  avatar: String
 }

@@ -1,3 +1,8 @@
+enum Role {
+  ADMIN
+  USER
+}
+
 type Post {
   id: ID! @unique
   createdAt: DateTime!
@@ -21,11 +26,11 @@ type User {
   username: String!
   name: String!
   posts: [Post!]!
-  role: String! @default(value: "user")
+  role: String! @default(value: USER)
   avatar: String
-  toDelete: Boolean @default(value: false)
-  resetExpires: DateTime
-  resetToken: String @unique
+  toDelete: Boolean @default(value: false) @hasRole(role: ADMIN)
+  resetExpires: DateTime @hasRole(role: ADMIN)
+  resetToken: String @unique @hasRole(role: ADMIN)
 }
 
 type Category {
