@@ -49,6 +49,6 @@ export const post = {
       throw new Error(`Post not found or you're not the author`)
     }
 
-    return ctx.db.mutation.deletePost({ where: { id } })
+    return ctx.db.mutation.deletePost({ where: { id } }, info)
   },
 }

@@ -8,20 +8,17 @@ const user = {
     },
 }
 
+const isRequestingUserAlsoOwner = ({ ctx, userId, type, typeId }) =>
+  ctx.db.exists[type]({ id: typeId, user: { id: userId } })
+
 export const directiveResolvers = {
 
-    /*
-        hasRole: (next, source, { roles }, ctx: Context) => {
-        const { role } = await directiveResolvers.isLoggedIn(ctx)
-        console.log('role', role);
-        if (roles.includes(role)) {
-          return next()
-        }
-        throw new Error(`Unauthorized role, you don't have permission to perform this operation.`)
-      }, 
-    */
+    isAuthenticated: async (next, source, args, ctx: Context) => {
+        await user.isLoggedIn(ctx)
+        return next()
+    },
 
-    async hasRole (next, source, { roles }, ctx: Context) {
+    hasRole: async (next, source, { roles }, ctx: Context) => {
       const { role } = await user.isLoggedIn(ctx)
       console.log('role', role);
       if (roles.includes(role)) {
@@ -29,4 +26,27 @@ export const directiveResolvers = {
       }
       throw new Error(`Unauthorized role, you don't have permission to perform this operation.`)
     },  
+
+    isOwnerOrHasRole: async (next, source, { roles, type }, ctx: Context, ...p) => {
+        console.log('p', p);
+        const { id: userId, role } = await user.isLoggedIn(ctx)
+        console.log('id', userId, 'role', role);
+        if (roles.includes(role)) {
+          return next()
+        }
+    
+        console.log('ctx.request.body', ctx.request.body);
+        const { id: typeId } = ctx.request.body.variables
+        const isOwner = await isRequestingUserAlsoOwner({
+          ctx,
+          userId,
+          type,
+          typeId
+        })
+    
+        if (isOwner) {
+          return next()
+        }
+        throw new Error(`Unauthorized, not owner or incorrect role.`)
+      }
 }
