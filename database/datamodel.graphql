@@ -1,0 +1,37 @@
+type Post {
+  id: ID! @unique
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  isPublished: Boolean! @default(value: "false")
+  title: String!
+  text: String!
+  content: String!
+  author: User!
+  likes: Int! @defaul(value: 0)
+  image: String
+  categories: [Category!]!
+}
+
+type User {
+  id: ID! @unique
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  email: String! @unique
+  password: String!
+  username: String!
+  name: String!
+  posts: [Post!]!
+  role: String! @default(value: "user")
+  avatar: String
+  toDelete: Boolean @default(value: false)
+  resetExpires: DateTime
+  resetToken: String @unique
+}
+
+type Category {
+  id: ID! @unique
+  name: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  posts: [Post!]!
+}
