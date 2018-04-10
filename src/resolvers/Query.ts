@@ -39,4 +39,10 @@ export const Query = {
   allUsers(parent, { filter, orderBy, skip, after, before, first, last }, ctx: Context, info) {
     return ctx.db.query.users({ where: { } }, info)
   },
+
+  /* Category queries. */
+  allCategories(parent, { filter, orderBy, skip, after, before, first, last }, ctx: Context, info) {
+    return ctx.db.query.categories({ where: { } }, info)
+  },
+
 }

@@ -10,14 +10,25 @@ type Query {
   # User queries.
   allUsers(filter: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]!
   me: User
+
+  # Category queries.
+  allCategories(filter: CategoryWhereInput, orderBy: CategoryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Category!]!
 }
 
 type Mutation {
+
+  # User mutations.
   signup(email: String!, password: String!, name: String!): AuthPayload!
   login(email: String!, password: String!): AuthPayload!
-  createDraft(title: String!, text: String!): Post!
+  deleteUser(id: ID!): User!
+
+  # Post mutations.
+  createDraft(title: String!, text: String!, content: String!): Post!
   publish(id: ID!): Post!
   deletePost(id: ID!): Post!
+
+  # Category mutations.
+  createCategory(name: String!, posts: [ID!]): Category
 }
 
 type AuthPayload {
