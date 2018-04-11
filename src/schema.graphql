@@ -32,8 +32,9 @@ type Mutation {
   deleteUser(id: ID!): User! @hasRole(roles: ["ADMIN"])
 
   # Post mutations.
-  createDraft(title: String!, text: String!, content: String!): Post!
+  createDraft(title: String!, content: String!): Post!
   publish(id: ID!): Post!
+  updatePost(id: ID, content: String, image: String, likes: Int, title: String): Post @isOwnerOrHasRole(type: "Post", roles: ["ADMIN", "USER"])
   deletePost(id: ID!): Post! @isOwnerOrHasRole(type: "Post", roles: ["ADMIN", "USER"])
 
   # Category mutations.

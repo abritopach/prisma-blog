@@ -16,7 +16,6 @@ type Post implements Node {
   updatedAt: DateTime!
   isPublished: Boolean!
   title: String!
-  text: String!
   content: String!
   author(where: UserWhereInput): User!
   likes: Int!
@@ -430,7 +429,6 @@ type PostConnection {
 input PostCreateInput {
   isPublished: Boolean
   title: String!
-  text: String!
   content: String!
   likes: Int!
   image: String
@@ -451,7 +449,6 @@ input PostCreateManyWithoutCategoriesInput {
 input PostCreateWithoutAuthorInput {
   isPublished: Boolean
   title: String!
-  text: String!
   content: String!
   likes: Int!
   image: String
@@ -461,7 +458,6 @@ input PostCreateWithoutAuthorInput {
 input PostCreateWithoutCategoriesInput {
   isPublished: Boolean
   title: String!
-  text: String!
   content: String!
   likes: Int!
   image: String
@@ -493,8 +489,6 @@ enum PostOrderByInput {
   isPublished_DESC
   title_ASC
   title_DESC
-  text_ASC
-  text_DESC
   content_ASC
   content_DESC
   likes_ASC
@@ -509,7 +503,6 @@ type PostPreviousValues {
   updatedAt: DateTime!
   isPublished: Boolean!
   title: String!
-  text: String!
   content: String!
   likes: Int!
   image: String
@@ -553,7 +546,6 @@ input PostSubscriptionWhereInput {
 input PostUpdateInput {
   isPublished: Boolean
   title: String
-  text: String
   content: String
   likes: Int
   image: String
@@ -582,7 +574,6 @@ input PostUpdateManyWithoutCategoriesInput {
 input PostUpdateWithoutAuthorDataInput {
   isPublished: Boolean
   title: String
-  text: String
   content: String
   likes: Int
   image: String
@@ -592,7 +583,6 @@ input PostUpdateWithoutAuthorDataInput {
 input PostUpdateWithoutCategoriesDataInput {
   isPublished: Boolean
   title: String
-  text: String
   content: String
   likes: Int
   image: String
@@ -799,59 +789,6 @@ input PostWhereInput {
   All values not ending with the given string.
   """
   title_not_ends_with: String
-  text: String
-  """
-  All values that are not equal to given value.
-  """
-  text_not: String
-  """
-  All values that are contained in given list.
-  """
-  text_in: [String!]
-  """
-  All values that are not contained in given list.
-  """
-  text_not_in: [String!]
-  """
-  All values less than the given value.
-  """
-  text_lt: String
-  """
-  All values less than or equal the given value.
-  """
-  text_lte: String
-  """
-  All values greater than the given value.
-  """
-  text_gt: String
-  """
-  All values greater than or equal the given value.
-  """
-  text_gte: String
-  """
-  All values containing the given string.
-  """
-  text_contains: String
-  """
-  All values not containing the given string.
-  """
-  text_not_contains: String
-  """
-  All values starting with the given string.
-  """
-  text_starts_with: String
-  """
-  All values not starting with the given string.
-  """
-  text_not_starts_with: String
-  """
-  All values ending with the given string.
-  """
-  text_ends_with: String
-  """
-  All values not ending with the given string.
-  """
-  text_not_ends_with: String
   content: String
   """
   All values that are not equal to given value.
@@ -1765,8 +1702,6 @@ export type PostOrderByInput =
   'isPublished_DESC' |
   'title_ASC' |
   'title_DESC' |
-  'text_ASC' |
-  'text_DESC' |
   'content_ASC' |
   'content_DESC' |
   'likes_ASC' |
@@ -1869,20 +1804,6 @@ export interface PostWhereInput {
   title_not_starts_with?: String
   title_ends_with?: String
   title_not_ends_with?: String
-  text?: String
-  text_not?: String
-  text_in?: String[] | String
-  text_not_in?: String[] | String
-  text_lt?: String
-  text_lte?: String
-  text_gt?: String
-  text_gte?: String
-  text_contains?: String
-  text_not_contains?: String
-  text_starts_with?: String
-  text_not_starts_with?: String
-  text_ends_with?: String
-  text_not_ends_with?: String
   content?: String
   content_not?: String
   content_in?: String[] | String
@@ -2107,7 +2028,6 @@ export interface CategoryUpsertWithWhereUniqueWithoutPostsInput {
 export interface PostCreateWithoutCategoriesInput {
   isPublished?: Boolean
   title: String
-  text: String
   content: String
   likes: Int
   image?: String
@@ -2117,7 +2037,6 @@ export interface PostCreateWithoutCategoriesInput {
 export interface PostCreateInput {
   isPublished?: Boolean
   title: String
-  text: String
   content: String
   likes: Int
   image?: String
@@ -2209,7 +2128,6 @@ export interface CategoryUpdateWithoutPostsDataInput {
 export interface PostUpdateWithoutAuthorDataInput {
   isPublished?: Boolean
   title?: String
-  text?: String
   content?: String
   likes?: Int
   image?: String
@@ -2219,7 +2137,6 @@ export interface PostUpdateWithoutAuthorDataInput {
 export interface PostCreateWithoutAuthorInput {
   isPublished?: Boolean
   title: String
-  text: String
   content: String
   likes: Int
   image?: String
@@ -2355,7 +2272,6 @@ export interface UserUpdateOneWithoutPostsInput {
 export interface PostUpdateInput {
   isPublished?: Boolean
   title?: String
-  text?: String
   content?: String
   likes?: Int
   image?: String
@@ -2372,7 +2288,6 @@ export interface PostUpsertWithWhereUniqueWithoutAuthorInput {
 export interface PostUpdateWithoutCategoriesDataInput {
   isPublished?: Boolean
   title?: String
-  text?: String
   content?: String
   likes?: Int
   image?: String
@@ -2434,7 +2349,6 @@ export interface Post extends Node {
   updatedAt: DateTime
   isPublished: Boolean
   title: String
-  text: String
   content: String
   author: User
   likes: Int
@@ -2507,7 +2421,6 @@ export interface PostPreviousValues {
   updatedAt: DateTime
   isPublished: Boolean
   title: String
-  text: String
   content: String
   likes: Int
   image?: String

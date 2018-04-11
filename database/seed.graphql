@@ -6,15 +6,15 @@ mutation {
     posts: {
       create: [{
         title: "Hello World"
-        text: "This is my first blog post ever!"
+        content: "This is my first blog post ever!"
         isPublished: true
       }, {
         title: "My Second Post"
-        text: "My first post was good, but this one is better!"
+        content: "My first post was good, but this one is better!"
         isPublished: true
       }, {
         title: "Solving World Hunger"
-        text: "This is a draft..."
+        content: "This is a draft..."
         isPublished: false
       }]
     }

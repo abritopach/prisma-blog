@@ -1,13 +1,12 @@
 import { getUserId, Context } from '../../utils'
 
 export const post = {
-  async createDraft(parent, { title, text, content }, ctx: Context, info) {
+  async createDraft(parent, { title, content }, ctx: Context, info) {
     const userId = getUserId(ctx)
     return ctx.db.mutation.createPost(
       {
         data: {
           title,
-          text,
           content,
           isPublished: false,
           author: {
@@ -17,6 +16,30 @@ export const post = {
         },
       },
       info
+    )
+  },
+
+  async updatePost(parent, { id, content, image, likes, title }, ctx: Context, info) {
+    const userId = getUserId(ctx)
+    const postExists = await ctx.db.exists.Post({
+      id,
+      author: { id: userId },
+    })
+    if (!postExists) {
+      throw new Error(`Post not found or you're not the author`)
+    }
+
+    return ctx.db.mutation.updatePost(
+      {
+        where: { id },
+        data: { 
+          content: content,
+          image: image,
+          likes: likes,
+          title: title
+        },
+      },
+      info,
     )
   },
 

@@ -9,7 +9,6 @@ type Post {
   updatedAt: DateTime!
   isPublished: Boolean! @default(value: "false")
   title: String!
-  text: String!
   content: String!
   author: User!
   likes: Int! @defaul(value: 0)
