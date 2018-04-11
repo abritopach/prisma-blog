@@ -1,5 +1,7 @@
 # import Post from "./generated/prisma.graphql"
 
+# Custom directives.
+
 directive @isAuthenticated on QUERY | FIELD | MUTATION
 directive @hasRole(roles: [String]) on QUERY | FIELD | MUTATION
 directive @isOwner(type: String) on QUERY | MUTATION
@@ -9,15 +11,16 @@ type Query {
   # Post queries.
   feed: [Post!]!
   drafts: [Post!]!
-  post(id: ID!): Post
+  post(id: ID!): Post @isOwnerOrHasRole(type: "Post", roles: ["ADMIN"])
   allPosts(filter: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post!]!
 
   # User queries.
-  allUsers(filter: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]!
+  allUsers(filter: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]! @hasRole(roles: ["ADMIN"])
   me: User @isAuthenticated
 
   # Category queries.
-  allCategories(filter: CategoryWhereInput, orderBy: CategoryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Category!]!
+  category(id: ID!): Category @isOwnerOrHasRole(type: "Post", roles: ["ADMIN"])
+  allCategories(filter: CategoryWhereInput, orderBy: CategoryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Category!]! @isAuthenticated
 }
 
 type Mutation {
@@ -25,7 +28,8 @@ type Mutation {
   # User mutations.
   signup(email: String!, password: String!, name: String!, username: String!): AuthPayload!
   login(email: String!, password: String!): AuthPayload!
-  deleteUser(id: ID!): User! @hasRole(roles: ["admin"])
+  updateUser(avatar: String, resetExpires: DateTime, resetToken: String, role: String, toDelete: Boolean): User @isOwnerOrHasRole(type: "User", roles: ["ADMIN", "USER"])
+  deleteUser(id: ID!): User! @hasRole(roles: ["ADMIN"])
 
   # Post mutations.
   createDraft(title: String!, text: String!, content: String!): Post!
@@ -33,8 +37,8 @@ type Mutation {
   deletePost(id: ID!): Post! @isOwnerOrHasRole(type: "Post", roles: ["ADMIN", "USER"])
 
   # Category mutations.
-  createCategory(name: String!, posts: [ID!]): Category @hasRole(roles: ["admin"])
-  deleteCategory(id: ID!): Category! @hasRole(roles: ["admin"])
+  createCategory(name: String!, posts: [ID!]): Category @hasRole(roles: ["ADMIN"])
+  deleteCategory(id: ID!): Category! @hasRole(roles: ["ADMIN"])
 }
 
 type AuthPayload {
@@ -50,4 +54,7 @@ type User {
   posts: [Post!]!
   role: String!
   avatar: String
+  resetExpires: DateTime
+  resetToken: String
+  toDelete: Boolean
 }

@@ -41,6 +41,11 @@ export const Query = {
   },
 
   /* Category queries. */
+
+  category(parent, { id }, ctx: Context, info) {
+    return ctx.db.query.category({ where: { id: id } }, info)
+  },
+
   allCategories(parent, { filter, orderBy, skip, after, before, first, last }, ctx: Context, info) {
     return ctx.db.query.categories({ where: { } }, info)
   },

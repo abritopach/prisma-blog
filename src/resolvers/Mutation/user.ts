@@ -13,4 +13,21 @@ export const user = {
 
     return ctx.db.mutation.deleteUser({ where: { id } })
   },
+
+  async updateUser(parent, { avatar, resetExpires, resetToken, role, toDelete }, ctx: Context, info) {
+    const userId = getUserId(ctx)
+    return ctx.db.mutation.updateUser(
+      {
+        where: { id: userId },
+        data: { 
+          avatar: avatar,
+          resetExpires: resetExpires,
+          resetToken: resetToken,
+          role: role,
+          toDelete: toDelete
+        },
+      },
+      info,
+    )
+  },
 }

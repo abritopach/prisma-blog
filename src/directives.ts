@@ -24,18 +24,18 @@ export const directiveResolvers = {
       if (roles.includes(role)) {
         return next()
       }
-      throw new Error(`Unauthorized role, you don't have permission to perform this operation.`)
+      throw new Error(`Unauthorized role [role: ${role}], you don't have permission to perform this operation.`)
     },  
 
     isOwnerOrHasRole: async (next, source, { roles, type }, ctx: Context, ...p) => {
-        console.log('p', p);
         const { id: userId, role } = await user.isLoggedIn(ctx)
-        console.log('id', userId, 'role', role);
         if (roles.includes(role)) {
           return next()
         }
-    
-        console.log('ctx.request.body', ctx.request.body);
+        else {
+          throw new Error(`Unauthorized role [role: ${role}], you don't have permission to perform this operation.`)
+        }
+
         const { id: typeId } = ctx.request.body.variables
         const isOwner = await isRequestingUserAlsoOwner({
           ctx,
