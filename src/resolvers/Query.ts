@@ -36,6 +36,10 @@ export const Query = {
     return ctx.db.query.user({ where: { id } }, info)
   },
 
+  user(parent, { id }, ctx: Context, info) {
+    return ctx.db.query.user({ where: { id: id } }, info)
+  },
+
   allUsers(parent, { filter, orderBy, skip, after, before, first, last }, ctx: Context, info) {
     return ctx.db.query.users({ where: { } }, info)
   },

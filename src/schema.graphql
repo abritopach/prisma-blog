@@ -16,6 +16,7 @@ type Query {
 
   # User queries.
   allUsers(filter: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]! @hasRole(roles: ["ADMIN"])
+  user(id: ID!): User @hasRole(roles: ["ADMIN"]) 
   me: User @isAuthenticated
 
   # Category queries.
@@ -33,6 +34,7 @@ type Mutation {
 
   # Post mutations.
   createDraft(title: String!, content: String!): Post!
+  createPost(title: String!, content: String!, image: String, isPublished: Boolean, likes: Int): Post!
   publish(id: ID!): Post!
   updatePost(id: ID, content: String, image: String, likes: Int, title: String): Post @isOwnerOrHasRole(type: "Post", roles: ["ADMIN", "USER"])
   deletePost(id: ID!): Post! @isOwnerOrHasRole(type: "Post", roles: ["ADMIN", "USER"])

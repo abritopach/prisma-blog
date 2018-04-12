@@ -3,6 +3,7 @@ import { Context, getUserId } from './utils'
 const user = {
     async isLoggedIn(ctx: Context) {
       const userId = getUserId(ctx)
+      console.log('isLoggedIn userId', userId);
       if (!userId) throw new Error(`Not logged in`)
       return ctx.db.query.user({ where: { id: userId } })
     },
@@ -26,6 +27,19 @@ export const directiveResolvers = {
       }
       throw new Error(`Unauthorized role [role: ${role}], you don't have permission to perform this operation.`)
     },  
+
+    isOwner: async (next, source, { type }, ctx) => {
+      const { id: typeId } =
+        source && source.id
+          ? source
+          : ctx.request.body.variables ? ctx.request.body.variables : {id: null}
+      const { id: userId } = await user.isLoggedIn(ctx)
+      const isOwner = type === `User` ? userId === typeId: await isRequestingUserAlsoOwner({ ctx, userId, type, typeId })
+      if (isOwner) {
+        return next()
+      }
+      throw new Error(`Unauthorized, must be owner to perform this operation.`)
+    },
 
     isOwnerOrHasRole: async (next, source, { roles, type }, ctx: Context, ...p) => {
         const { id: userId, role } = await user.isLoggedIn(ctx)

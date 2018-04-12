@@ -19,6 +19,25 @@ export const post = {
     )
   },
 
+  async createPost(parent, { title, content, image, isPublished }, ctx: Context, info) {
+    const userId = getUserId(ctx)
+    return ctx.db.mutation.createPost(
+      {
+        data: {
+          title,
+          content,
+          image,
+          isPublished,
+          author: {
+            connect: { id: userId },
+          },
+          likes: 0,
+        },
+      },
+      info
+    )
+  },
+
   async updatePost(parent, { id, content, image, likes, title }, ctx: Context, info) {
     const userId = getUserId(ctx)
     const postExists = await ctx.db.exists.Post({
