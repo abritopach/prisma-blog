@@ -34,13 +34,13 @@ type Mutation {
 
   # Post mutations.
   createDraft(title: String!, content: String!): Post!
-  createPost(title: String!, content: String!, image: String, isPublished: Boolean, likes: Int): Post!
+  createPost(title: String!, content: String!, image: String, isPublished: Boolean, categories: [CategoryWhereInput!]): Post!
   publish(id: ID!): Post!
   updatePost(id: ID, content: String, image: String, likes: Int, title: String): Post @isOwnerOrHasRole(type: "Post", roles: ["ADMIN", "USER"])
   deletePost(id: ID!): Post! @isOwnerOrHasRole(type: "Post", roles: ["ADMIN", "USER"])
 
   # Category mutations.
-  createCategory(name: String!, posts: [ID!]): Category @hasRole(roles: ["ADMIN"])
+  createCategory(name: String!): Category @hasRole(roles: ["ADMIN"])
   deleteCategory(id: ID!): Category! @hasRole(roles: ["ADMIN"])
 }
 

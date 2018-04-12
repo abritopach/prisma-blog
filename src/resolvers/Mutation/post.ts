@@ -19,7 +19,7 @@ export const post = {
     )
   },
 
-  async createPost(parent, { title, content, image, isPublished }, ctx: Context, info) {
+  async createPost(parent, { title, content, image, isPublished, categories }, ctx: Context, info) {
     const userId = getUserId(ctx)
     return ctx.db.mutation.createPost(
       {
@@ -32,6 +32,9 @@ export const post = {
             connect: { id: userId },
           },
           likes: 0,
+          categories: {
+            connect: categories
+          }
         },
       },
       info
