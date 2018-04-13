@@ -1,4 +1,4 @@
-# import Post from "./generated/prisma.graphql"
+# import Post, PostSubscriptionPayload, UserSubscriptionPayload from "./generated/prisma.graphql"
 
 # Custom directives.
 
@@ -21,7 +21,7 @@ type Query {
 
   # Category queries.
   category(id: ID!): Category @isOwnerOrHasRole(type: "Post", roles: ["ADMIN"])
-  allCategories(filter: CategoryWhereInput, orderBy: CategoryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Category!]! @isAuthenticated
+  allCategories(filter: CategoryWhereInput, orderBy: CategoryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Category!]! #@isAuthenticated
 }
 
 type Mutation {
@@ -42,6 +42,15 @@ type Mutation {
   # Category mutations.
   createCategory(name: String!): Category @hasRole(roles: ["ADMIN"])
   deleteCategory(id: ID!): Category! @hasRole(roles: ["ADMIN"])
+}
+
+type Subscription {
+
+  # User subscriptions.
+  users: UserSubscriptionPayload
+
+  # Post subscriptions.
+  publications: PostSubscriptionPayload
 }
 
 type AuthPayload {
