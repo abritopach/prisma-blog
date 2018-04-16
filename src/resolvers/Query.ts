@@ -29,6 +29,18 @@ export const Query = {
     return ctx.db.query.posts({ where: { } }, info)
   },
 
+  async _allPostsMeta(parent, { filter, orderBy, skip, after, before, first, last }, ctx: Context, info) {
+    // Retrieve (potentially filtered) element count.
+    const postsConnection = await ctx.db.query.postsConnection(
+      { where: {} },
+      `{ aggregate { count } }`,
+    )
+
+    return {
+      count: postsConnection.aggregate.count,
+    }
+  },
+
   /* User queries. */
 
   me(parent, args, ctx: Context, info) {

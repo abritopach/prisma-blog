@@ -13,6 +13,7 @@ type Query {
   drafts: [Post!]!
   post(id: ID!): Post @isOwnerOrHasRole(type: "Post", roles: ["ADMIN"])
   allPosts(filter: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post!]!
+  _allPostsMeta(filter: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): _QueryMeta!
 
   # User queries.
   allUsers(filter: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]! @hasRole(roles: ["ADMIN"])
@@ -21,7 +22,7 @@ type Query {
 
   # Category queries.
   category(id: ID!): Category @isOwnerOrHasRole(type: "Post", roles: ["ADMIN"])
-  allCategories(filter: CategoryWhereInput, orderBy: CategoryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Category!]! #@isAuthenticated
+  allCategories(filter: CategoryWhereInput, orderBy: CategoryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Category!]! @isAuthenticated
 }
 
 type Mutation {
@@ -34,7 +35,7 @@ type Mutation {
 
   # Post mutations.
   createDraft(title: String!, content: String!): Post!
-  createPost(title: String!, content: String!, image: String, isPublished: Boolean, categories: [CategoryWhereInput!]): Post!
+  createPost(title: String!, content: String!, image: String, isPublished: Boolean, categories: [CategoryWhereInput!]): Post! @isAuthenticated
   publish(id: ID!): Post!
   updatePost(id: ID, content: String, image: String, likes: Int, title: String): Post @isOwnerOrHasRole(type: "Post", roles: ["ADMIN", "USER"])
   deletePost(id: ID!): Post! @isOwnerOrHasRole(type: "Post", roles: ["ADMIN", "USER"])
@@ -69,4 +70,8 @@ type User {
   resetExpires: DateTime
   resetToken: String
   toDelete: Boolean
+}
+
+type _QueryMeta {
+  count: Int!
 }
