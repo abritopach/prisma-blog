@@ -11,7 +11,7 @@ type Query {
   # Post queries.
   feed: [Post!]!
   drafts: [Post!]!
-  post(id: ID!): Post @isOwnerOrHasRole(type: "Post", roles: ["ADMIN"])
+  post(id: ID!): Post @isOwnerOrHasRole(type: "Post", roles: ["ADMIN", "USER"])
   allPosts(filter: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post!]!
   _allPostsMeta(filter: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): _QueryMeta!
 
@@ -37,7 +37,7 @@ type Mutation {
   createDraft(title: String!, content: String!): Post!
   createPost(title: String!, content: String!, image: String, isPublished: Boolean, categories: [CategoryWhereInput!]): Post! @isAuthenticated
   publish(id: ID!): Post!
-  updatePost(id: ID, content: String, image: String, likes: Int, title: String): Post @isOwnerOrHasRole(type: "Post", roles: ["ADMIN", "USER"])
+  updatePost(id: ID!, content: String, image: String, likes: Int, title: String, isPublished: Boolean, categories: [CategoryWhereInput!]): Post @isOwnerOrHasRole(type: "Post", roles: ["ADMIN", "USER"])
   deletePost(id: ID!): Post! @isOwnerOrHasRole(type: "Post", roles: ["ADMIN", "USER"])
 
   # Category mutations.

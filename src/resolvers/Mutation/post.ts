@@ -41,7 +41,7 @@ export const post = {
     )
   },
 
-  async updatePost(parent, { id, content, image, likes, title }, ctx: Context, info) {
+  async updatePost(parent, { id, content, image, likes, title, isPublished, categories }, ctx: Context, info) {
     const userId = getUserId(ctx)
     const postExists = await ctx.db.exists.Post({
       id,
@@ -58,7 +58,11 @@ export const post = {
           content: content,
           image: image,
           likes: likes,
-          title: title
+          title: title,
+          isPublished: isPublished,
+          categories: {
+            connect: categories
+          }
         },
       },
       info,
