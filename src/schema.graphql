@@ -30,7 +30,7 @@ type Mutation {
   # User mutations.
   signup(email: String!, password: String!, name: String!, username: String!): AuthPayload!
   login(email: String!, password: String!): AuthPayload!
-  updateUser(avatar: String, resetExpires: DateTime, resetToken: String, role: String, toDelete: Boolean): User @isOwnerOrHasRole(type: "User", roles: ["ADMIN", "USER"])
+  updateUser(id: ID!, username: String, avatar: String, resetExpires: DateTime, resetToken: String, role: String, toDelete: Boolean): User @isOwnerOrHasRole(type: "User", roles: ["ADMIN", "USER"])
   deleteUser(id: ID!): User! @hasRole(roles: ["ADMIN"])
 
   # Post mutations.
