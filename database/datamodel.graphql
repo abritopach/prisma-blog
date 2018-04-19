@@ -10,7 +10,7 @@ type Post {
   isPublished: Boolean! @default(value: "false")
   title: String!
   content: String!
-  author: User!
+  author: User! @relation(name: "PostsByUser")
   likes: Int! @defaul(value: 0)
   image: String
   categories: [Category!]!
@@ -24,7 +24,7 @@ type User {
   password: String!
   username: String!
   name: String!
-  posts: [Post!]!
+  posts: [Post!]! @relation(name: "PostsByUser" onDelete: CASCADE)
   role: String! @default(value: USER)
   avatar: String
   toDelete: Boolean @default(value: false) @hasRole(role: ADMIN)
