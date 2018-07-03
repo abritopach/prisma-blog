@@ -11,4 +11,3 @@ projects:
       prepare-binding:
         output: src/generated/prisma.ts
         generator: prisma-ts
-
